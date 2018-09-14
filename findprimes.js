@@ -13,7 +13,7 @@ function findPrimes(number = 100) {
   let primes = "";
 
   for (let i = 1; i <= number; i++) {
-    primes += isPrime(i) || "";
+    primes += isPrime(i) ? i + " " : "";
   }
 
   return primes;
@@ -21,8 +21,9 @@ function findPrimes(number = 100) {
 
 function isPrime(number) {
   for (let i = 2; i < number; i++) {
-    return (number % i == 0) ? false : number + " ";
+    if (number % i == 0) return false;
   }
+  return true;
 }
 
-console.log(findPrimes());
+console.log(findPrimes(200));
