@@ -26,4 +26,4 @@ function isPrime(number) {
   return true;
 }
 
-console.log(findPrimes(200));
+console.log(findPrimes(1000));
