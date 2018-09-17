@@ -9,14 +9,21 @@
 //   console.log(i);
 // }
 
-function findPrimes(number = 100) {
-  let primes = "";
+// function findPrimes(number = 100) {
+//   let primes = "";
+//
+//   for (let i = 1; i <= number; i++) {
+//     primes += isPrime(i) ? i + " " : "";
+//   }
+//
+//   return primes;
+// }
 
-  for (let i = 1; i <= number; i++) {
-    primes += isPrime(i) ? i + " " : "";
+function findPrimes(x = 100) {
+  for (let i = 1; i <= x; i++) {
+    if (!isPrime(i)) continue;
+    console.log(i);
   }
-
-  return primes;
 }
 
 function isPrime(number) {
@@ -26,4 +33,6 @@ function isPrime(number) {
   return true;
 }
 
-console.log(findPrimes(1000));
+findPrimes();
+
+// console.log(findPrimes(1000));

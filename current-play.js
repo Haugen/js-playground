@@ -1,17 +1,22 @@
 "use strict";
 
-function findPrimes(x = 100) {
-  for (let i = 1; i <= x; i++) {
-    if (!isPrime(i)) continue;
-    console.log(i);
-  }
-}
+let user = {
+  name: "Tobias",
+  age: 32,
+  doubleAge: () => user.age * 2,
+  [2 + 2]: "expressions in keys",
+};
 
-function isPrime(x) {
-  for (let i = 2; i < x; i++) {
-    if (x % i == 0) return false;
-  }
-  return true;
-}
+console.log(user.name);
+console.log(user.age);
+console.log(user.doubleAge());
 
-findPrimes();
+// Assigned variables can be used with brackets to locate keys.
+let key = "age";
+console.log(user[key]);
+
+// Setting and deleting keys on objects.
+user.isAdmin = true;
+delete user.name;
+
+console.log(user);
