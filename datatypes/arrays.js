@@ -22,6 +22,11 @@ for (let key in fruits) {
 // More array methods:
 // * slice(start, end) - Returns a new sub array.
 // * concat(args...) - Joins array with other arrays and/or items.
+// * reverse() - Reverses the items of an array.
+// * split(delim) - Splits a string on delim and returns an array of items.
+// * join(delim) - Does the opposite. Joins each array item to a string
+//                 separated by the delim.
+// * reduce() - Used to calculate a single value on the array.
 
 l(fruits.lastIndexOf("Banana", fruits.length - 1));
 l(fruits.includes("Apple", 0));
@@ -128,3 +133,16 @@ let sorted = [1, -2, 15, 2, 0, 8].sort(function(a, b) {
   // or even "(a, b) => a - b".
 });
 l(sorted);
+
+// forEach goes through each element in the array.
+let lords = ["Bilbo", "Gandalf", "Nazgul"];
+lords.forEach((item, index, array) => {
+  l(`${item} is at index ${index} in ${array}`);
+});
+
+l(typeof []); // Object.
+l(Array.isArray([])); // True.
+
+let test = [];
+test.length = 10;
+l(test.fill("x", 0, 10));
