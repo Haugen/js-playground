@@ -18,7 +18,8 @@ l("\u{1F60D}");
 l(guests[guests.length - 1]);
 
 // "in" here gets the numeric position of each string, while "of" gets the
-// actual character of that position.
+// actual character of that position. "of" is better suited for looping an
+// Array, while "in" is regularly used for objects.
 for (let char in guests) {
   l(char);
 }
