@@ -98,6 +98,8 @@ l(unique2(values));
 // Take an array and sort out any anagrams.
 let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
 
+// Using map here, but since keys are strings we could also just use a normal
+// object in this case.
 function aclean(arr) {
   let map = new Map();
 
@@ -110,3 +112,22 @@ function aclean(arr) {
 }
 
 l(aclean(arr));
+
+//
+
+// A WeakMap should clean up the objects stored as key whenever the object
+// loose reference in all other places. Could still show up here since it's up
+// to the engine when and how to clean up.
+let messages = [
+    {text: "Hello", from: "John"},
+    {text: "How goes?", from: "John"},
+    {text: "See you soon", from: "Alice"}
+];
+
+let datesRead = new WeakMap();
+
+datesRead.set(messages[0], "Today");
+datesRead.set(messages[1], "Yesterday");
+
+messages.shift();
+l(datesRead);
