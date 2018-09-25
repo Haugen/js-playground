@@ -86,3 +86,52 @@ let arr = [1, 2, 3, 4, 5, 6, 7];
 
 l(arr.filter(inBetween(3, 6))); // 3,4,5,6
 l(arr.filter(inArray([1, 2, 10]))); // 1,2
+
+//
+
+let users = [
+  { name: "John", age: 20, surname: "Johnson" },
+  { name: "Pete", age: 18, surname: "Peterson" },
+  { name: "Ann", age: 19, surname: "Hathaway" }
+];
+
+// Using a function to sort an array of objects, passing the field name to sort
+// on as an argument.
+function byField(field) {
+  return (a, b) => a[field] > b[field] ? 1 : -1;
+}
+
+users.sort((a, b) => a.age > b.age);
+users.forEach(user => l(user));
+users.sort(byField('age'));
+users.forEach(user => l(user));
+users.sort(byField('name'));
+users.forEach(user => l(user));
+
+//
+
+//
+function makeArmy() {
+  let shooters = [];
+
+  let i = 0;
+  while (i < 10) {
+    let j = i;
+    let shooter = function() { // shooter function
+      l(j); // should show its number
+    };
+    shooters.push(shooter);
+    i++;
+  }
+
+  return shooters;
+}
+
+let army = makeArmy();
+
+// The fix for this in the above function was to copy "i" from the makeArmy
+// lexicon into a code block deeper. Could also be rewritten as a for-loop.
+
+army[0](); // the shooter number 0 shows 10
+army[5](); // and number 5 also outputs 10...
+// ... all shooters show 10 instead of their 0, 1, 2, 3...
