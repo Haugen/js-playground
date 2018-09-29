@@ -19,17 +19,33 @@ function fibCache(n) {
   return num;
 }
 
+// Starting from the bottom and going up instead, only ever saving the previously
+// two calculated numbers. Even faster than the caching way, but not as much fun.
+function fibDyn(n) {
+  let a = 1,
+      b = 1;
+
+  for (let i = 3; i <= n; i++) {
+    let c = a + b;
+    a = b;
+    b = c;
+  }
+
+  return b;
+}
+
 // Call each function and print the results in the console.
 function calcFib(n, func) {
   let start = new Date(),
-      number = func(n),
+      result = func(n),
       end = new Date,
       ms = end - start;
 
-  return `${func.name} calculated Fib nr ${n} to ${number} in ${ms}ms.`
+  return `${func.name} calculated Fib nr ${n} to ${result} in ${ms}ms.`
 }
 
 // Create the map used in fibCache and calculate each function.
 let map = new Map();
 l(calcFib(1400, fibCache));
+l(calcFib(1400, fibDyn));
 l(calcFib(40, fib));
