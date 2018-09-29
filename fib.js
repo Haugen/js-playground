@@ -5,8 +5,7 @@ const l = console.log;
 // Basic fibonacci recursive search. Getting the 40'th number takes several
 // seconds with this method.
 function fib(n) {
-  if (n <= 1) return n;
-  return fib(n - 1) + fib(n - 2);
+  return (n <= 1) ? n : fib(n - 1) + fib(n - 2);
 }
 
 // Adding some caching. Save every number calculated in a map, so we never need
