@@ -1,7 +1,7 @@
 "use strict";
 
 const l = console.log;
-const scriptToLoad = 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js'
+const scriptToLoad = 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js';
 
 function loadScript(src, callback) {
   let script = document.createElement('script');
