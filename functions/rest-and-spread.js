@@ -29,3 +29,17 @@ let str = "Hello";
 // Same output for both rows below.
 l([...str]);
 l(Array.from(str));
+
+//
+
+// Another example of using rest.
+function restArgs(...args) {
+  let sum = 0;
+  sum = args.reduce((sum, curr) => {
+    if (typeof curr == "number") return sum + curr;
+    return sum;
+  });
+  l(sum);
+}
+
+restArgs(1, 2, [1, 2, 3], 10, 3, 4, 5, 6, 'hey');
