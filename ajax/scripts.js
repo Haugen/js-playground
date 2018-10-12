@@ -3,48 +3,48 @@
 const DOG_URL = 'https://dog.ceo/api/breeds/image/random';
 
 const l = console.log;
-const img = document.querySelector('.dog-container img');
+const imgContainer = document.querySelector('.dog-container');
 const button = document.querySelector('.get-dog');
 const loader = document.querySelector('.loader');
-const dogs = [];
 const images = [];
 
-init();
-
-function init() {
-  pushDogs();
-}
+pushDogs();
 
 // Push a number of dog URLs into dogs array.
 function pushDogs() {
-  for (let i = 0; i < 5; i++) {
-    fetchDog().then(dogUrl => dogs.push(dogUrl));
+  for (let i = 0; i < 10; i++) {
+    fetchDog();
   }
 }
 
+// Print a new dog on every button click.
 button.addEventListener('click', function(event) {
   printDog();
 });
 
+// Now printDog removes an element, add a new one, removes an image from the cache,
+// and fetches a new dog. Maybe too much?
 function printDog() {
-  img.src = dogs[0];
-  dogs.shift();
-  fetchDog().then(dogUrl => dogs.push(dogUrl));
+  const img = imgContainer.querySelector('img');
+  imgContainer.removeChild(img);
+  imgContainer.appendChild(images[0]);
+  images.shift();
+  fetchDog();
 }
 
-// Get and return a new dog URL.
+// Get a new dog URL and create an image.
 function fetchDog() {
   const dog = fetch(DOG_URL)
     .then(response => response.json())
-    .then(json => json.message);
+    .then(json => json.message)
+    .then(url => preloadImage(url));
 
   return dog;
 }
 
-// Trying to preload full images so there is no delat when changing dog.
+// Creating a new img element with a given url as src.
 function preloadImage(url) {
   let newImage = new Image();
   newImage.src = url;
-  return newImage;
-  //images.push(newImage);
+  images.push(newImage);
 }
