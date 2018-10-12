@@ -1,0 +1,18 @@
+body {
+  background: pink;
+}
+
+.dog-container {
+  min-height: 400px;
+}
+
+.loader {
+  display: none;
+  width: 100px;
+  height: 100px;
+  background: greenyellow;
+}
+
+.loader.is-loading {
+  display: block;
+}
