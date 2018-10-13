@@ -7,6 +7,9 @@ const imgContainer = document.querySelector('.dog-container');
 const button = document.querySelector('.get-dog');
 const loader = document.querySelector('.loader');
 const images = [];
+const maxHeight = window.innerHeight - button.clientHeight - 20;
+const maxWidth = window.innerWidth - 20;
+imgContainer.style.height = maxHeight + 'px';
 
 pushDogs();
 
@@ -46,5 +49,7 @@ function fetchDog() {
 function preloadImage(url) {
   let newImage = new Image();
   newImage.src = url;
+  newImage.style.maxHeight = `${maxHeight}px`;
+  newImage.style.maxWidth = `${maxWidth}px`;
   images.push(newImage);
 }

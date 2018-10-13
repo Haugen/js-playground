@@ -1,18 +1,21 @@
-body {
-  background: pink;
-}
-
 .dog-container {
   min-height: 400px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
-.loader {
-  display: none;
-  width: 100px;
-  height: 100px;
-  background: greenyellow;
-}
-
-.loader.is-loading {
+.dog-container img {
   display: block;
+  margin: 0 auto;
+}
+
+.get-dog {
+  font-size: 30px;
+  border-radius: 0;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  padding: 40px 0;
 }
