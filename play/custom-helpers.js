@@ -28,6 +28,13 @@ _.filter = function(list, callback) {
 
   return temp;
 };
+_.from = function(arrLike) {
+  let arr = [];
+
+  arr = Array.prototype.slice.call(arrLike);
+
+  return arr;
+};
 
 function createSuspectObject(name) {
   return {
@@ -65,3 +72,17 @@ let shorty = _.filter(suspects, function(suspect) {
 });
 
 console.log(shorty);
+
+const add = function(x, y, z) {
+  let arr = _.from(arguments);
+
+  while (arr.length < 3) {
+    arr.push(Math.floor((Math.random() + 1) * 5));
+  }
+
+  [x, y, z] = arr;
+
+  return x + y + z;
+};
+
+l(add(3, 5));
