@@ -1,14 +1,27 @@
+/*
+
+Minesweaper v. 0.0.1
+
+First attempt at a custom Minesweaper game in vanilla JS. Running into too heavy
+computations with this approach, but it feels like a good first attempt. For another
+version I need to keep better track of the boards state, to easily calculate the
+surrounding number of mines.
+
+*/
 'use strict';
 
 const l = console.log;
 
 const battlefield = [];
 const hasMines = [];
+const gameOn = true;
+// Seams like there are bugs if battleWidth and battleHeight are not equal.
 const battleWidth = 10;
 const battleHeight = 10;
-const difficulty = 20; // % based between 1 and 100, 1 being too easy and 100 impossible.
+const difficulty = 30; // How many mines, in percentages.
 const table = document.querySelector('#battlefield');
 
+// Initialize the game.
 init();
 
 table.addEventListener('click', function(event) {
@@ -18,20 +31,32 @@ table.addEventListener('click', function(event) {
     let clickedCords = clickedId.slice(4).split('');
 
     if (event.altKey) {
+      // Alt key to mark a position instead of clicking it.
       clickedElement.style.backgroundColor =
         clickedElement.style.backgroundColor == 'red' ? 'white' : 'red';
     } else if (battlefield[clickedCords[0]][clickedCords[1]].hasMine) {
+      // If the clicked position has a mine.
       showAllMines();
     } else {
-      // Set innerText to the number of mines surrounding this position.
-      let numberOfMines = getSurroundingNumber(clickedCords);
-      if (numberOfMines === 0) {
-      }
-      clickedElement.innerText = numberOfMines;
+      // If the clicked position has no mine, act to fill it.
+      fillPosition(clickedCords);
     }
   }
 });
 
+// Tried to do this recursive if the position clicked has 0 surrounding mines, but
+// the calculations are too heavy. Need a re-write for that functionality I think.
+function fillPosition(chords) {
+  let tdId = '#pos-' + chords.join('');
+  let element = document.querySelector(tdId);
+
+  let surrounding = getSurroundingNumber(chords);
+  let numberOfMines = getNumberOfSurroundingMines(surrounding, hasMines);
+  element.innerText = numberOfMines;
+}
+
+// Game initiation. Fill the battlefield and the hasMines arrays, then create
+// the gameboard in HTML.
 function init() {
   // Populate the battlefield array with squares with an x, y position.
   for (let i = 0; i < battleHeight; i++) {
@@ -58,6 +83,7 @@ function init() {
   }
 }
 
+// Takes in chords, figures our the 9 surrounding chords.
 function getSurroundingNumber(chords) {
   let x = +chords[0];
   let y = +chords[1];
@@ -74,10 +100,12 @@ function getSurroundingNumber(chords) {
     [x + 1, y + 1]
   ];
 
-  return findSurroundingMines(surrounding, hasMines);
+  return surrounding;
 }
 
-function findSurroundingMines(small, large) {
+// Take in the surrounding of the position clicked and figure out how many mines are
+// surrounding it. Return that number.
+function getNumberOfSurroundingMines(small, large) {
   // Find how many of the small items are in the large array. I think this can be
   // heavily optimized since it does a lot of calculations each time it's called.
   let numberOfMines = 0;
@@ -92,11 +120,13 @@ function findSurroundingMines(small, large) {
   return numberOfMines;
 }
 
+// End of the game scenario. Instantly display all mines.
 function showAllMines() {
   hasMines.forEach(function(col) {
     let colId = '#pos-' + col.join('');
     let td = document.querySelector(colId);
-    td.style.color = 'red';
+    td.style.color = 'white';
+    td.style.backgroundColor = 'red';
     td.innerText = 'X';
   });
 }
