@@ -14,6 +14,7 @@ const l = console.log;
 
 const battlefield = [];
 const hasMines = [];
+const hasMinesNr = [];
 const gameOn = true;
 // Seams like there are bugs if battleWidth and battleHeight are not equal.
 const battleWidth = 10;
@@ -23,6 +24,8 @@ const table = document.querySelector('#battlefield');
 
 // Initialize the game.
 init();
+
+l(battlefield);
 
 table.addEventListener('click', function(event) {
   if (event.target.tagName === 'TD') {
@@ -39,6 +42,7 @@ table.addEventListener('click', function(event) {
       showAllMines();
     } else {
       // If the clicked position has no mine, act to fill it.
+      l(clickedCords);
       fillPosition(clickedCords);
     }
   }
@@ -63,23 +67,38 @@ function init() {
     battlefield[i] = [];
     for (let j = 0; j < battleWidth; j++) {
       battlefield[i].push([i, j]);
-      if (Math.random() * (101 - 1) + 1 < difficulty) {
+      if (_.random(1, 100) < difficulty) {
         battlefield[i][j].hasMine = true;
         hasMines.push([i, j]);
       }
     }
   }
 
+  _.forEach(hasMines, function(chords) {
+    hasMinesNr.push(chords.join(''));
+  });
+
   // Create rows and column for the html table.
   for (let i = 0; i < battlefield.length; i++) {
     let tr = document.createElement('tr');
     for (let j = 0; j < battlefield[i].length; j++) {
+      battlefield[i][j].surrounding = getSurroundingNumber([i, j]);
+      battlefield[i][j].nrOfSurroundingMines = getNumberOfSurroundingMines2(
+        battlefield[i][j].surrounding
+      );
       let td = document.createElement('td');
       td.id = 'pos-' + battlefield[i][j];
       td.id = td.id.replace(',', '');
       tr.appendChild(td);
     }
     table.appendChild(tr);
+  }
+
+  // Create rows and column for the html table.
+  for (let i = 0; i < battlefield.length; i++) {
+    for (let j = 0; j < battlefield[i].length; j++) {
+      getNumberOfSurroundingMines2(battlefield[i][j].surrounding);
+    }
   }
 }
 
@@ -118,6 +137,21 @@ function getNumberOfSurroundingMines(small, large) {
   });
 
   return numberOfMines;
+}
+
+function getNumberOfSurroundingMines2(surrounding) {
+  let nr = 0;
+  let surroundingNumbers = [];
+
+  _.forEach(surrounding, function(chords) {
+    surroundingNumbers.push(chords.join(''));
+  });
+
+  _.forEach(surroundingNumbers, function(currNr) {
+    if (_.includes(hasMinesNr, currNr)) nr++;
+  });
+
+  return nr;
 }
 
 // End of the game scenario. Instantly display all mines.
