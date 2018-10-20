@@ -1,0 +1,8 @@
+<h1>Tweets about {{ query }}</h1>
+
+{{#each tweets}}
+<p>
+  <strong>{{ user_name }}:</strong>
+  {{ tweet }}
+</p>
+{{/each}}
