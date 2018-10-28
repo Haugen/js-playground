@@ -3,8 +3,12 @@
 const l = console.log;
 
 // prettier-ignore
-const numbers = [1, 5, 6, 34, 6, 34, 7, 9, 10, 2, 6, 8, 30, 23, 76, 333, 234, 1, 3, 5];
-const numbersShort = [1, 2, 4, 1, 7];
+const numbersShort = [1, 2, 4, 1, 7, 19, 23, 4, 6, 9];
+
+const numbers = [];
+for (let i = 0; i < 1000; i++) {
+  numbers.push(Math.round(Math.random() * 200));
+}
 
 /**
  * Quick sort.
@@ -27,7 +31,8 @@ function quickSort(arr) {
   return [].concat(quickSort(smaller), pivot, quickSort(larger));
 }
 
-console.log('Quick sort:', quickSort(numbers));
+let quickSortResult = timer(quickSort, numbers);
+console.log('Quick sort: ' + quickSortResult.time, quickSortResult.result);
 
 /**
  * Merge sort.
@@ -60,7 +65,8 @@ function stitch(listOne = [], listTwo = []) {
 }
 
 let copyNumbers = [...numbers];
-console.log('Merge sort: ', mergeSort(copyNumbers));
+let mergeSortResult = timer(mergeSort, copyNumbers);
+console.log('Merge sort: ' + mergeSortResult.time, mergeSortResult.result);
 
 /**
  * Insertion sort.
@@ -88,27 +94,64 @@ function insertionSort(arr) {
   return newArr;
 }
 
-console.log('Insertion sort: ', insertionSort(numbers));
+let insertionSortResult = timer(insertionSort, numbers);
+console.log(
+  'Insertion sort: ' + insertionSortResult.time,
+  insertionSortResult.result
+);
 
 /**
- * Bubble sort.
+ * Old Bubble sort, has some sort of bug in it.
  */
-function bubbleSort(arr, swappedLast = true) {
-  if (!swappedLast) return arr;
+// function bubbleSort(arr, swappedLast = true) {
+//   if (!swappedLast) return arr;
 
-  let swapped = false;
-  let newArr = [...arr];
+//   let swapped = false;
+//   let newArr = [...arr];
 
-  // TODO! There is something wrong with bubble sort atm.
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] > arr[i + 1]) {
-      newArr[i] = arr[i + 1];
-      newArr[i + 1] = arr[i];
-      if (!swapped) swapped = true;
+//   // TODO! There is something wrong with bubble sort atm.
+//   for (let i = 0; i < arr.length; i++) {
+//     if (arr[i] > arr[i + 1]) {
+//       newArr[i] = arr[i + 1];
+//       newArr[i + 1] = arr[i];
+//       swapped = true;
+//     }
+//   }
+//   return bubbleSort(newArr, swapped);
+// }
+
+/**
+ * New bubble sort, solution from Front End Masters.
+ */
+function bubbleSort(arr) {
+  do {
+    var swapped = false;
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i] > arr[i + 1]) {
+        var temp = arr[i];
+        arr[i] = arr[i + 1];
+        arr[i + 1] = temp;
+        swapped = true;
+      }
     }
-  }
+  } while (swapped);
 
-  return bubbleSort(newArr, swapped);
+  return arr;
 }
 
-console.log('Bubble sort: ', bubbleSort(numbers));
+let bubbleSortResult = timer(bubbleSort, numbers);
+console.log('Bubble sort: ' + bubbleSortResult.time, bubbleSortResult.result);
+
+/**
+ * Simple timer function to check how long each algoritm takes.
+ */
+function timer(cb, args) {
+  let start = new Date();
+  let result = cb(args);
+  let end = new Date();
+
+  return {
+    result,
+    time: end - start + 'ms'
+  };
+}
