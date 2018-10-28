@@ -6,7 +6,32 @@ const l = console.log;
 const numbers = [1, 5, 6, 34, 6, 34, 7, 9, 10, 2, 6, 8, 30, 23, 76, 333, 234, 1, 3, 5];
 const numbersShort = [1, 2, 4, 1, 7];
 
-// Merge sort
+/**
+ * Quick sort.
+ */
+function quickSort(arr) {
+  if (arr.length < 2) return arr;
+
+  let pivot = arr[arr.length - 1];
+  let smaller = [];
+  let larger = [];
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (arr[i] <= pivot) {
+      smaller.push(arr[i]);
+    } else {
+      larger.push(arr[i]);
+    }
+  }
+
+  return [].concat(quickSort(smaller), pivot, quickSort(larger));
+}
+
+console.log('Quick sort:', quickSort(numbers));
+
+/**
+ * Merge sort.
+ */
 function mergeSort(arr) {
   if (arr.length <= 1) {
     return arr;
@@ -37,7 +62,9 @@ function stitch(listOne = [], listTwo = []) {
 let copyNumbers = [...numbers];
 console.log('Merge sort: ', mergeSort(copyNumbers));
 
-// My first try at insertion sort. A bit more challenging than bubble sort.
+/**
+ * Insertion sort.
+ */
 function insertionSort(arr) {
   let newArr = [];
 
@@ -63,7 +90,9 @@ function insertionSort(arr) {
 
 console.log('Insertion sort: ', insertionSort(numbers));
 
-// Trying out my own custom bubble sort.
+/**
+ * Bubble sort.
+ */
 function bubbleSort(arr, swappedLast = true) {
   if (!swappedLast) return arr;
 
