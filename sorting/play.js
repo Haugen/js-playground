@@ -11,7 +11,7 @@ function mergeSort(arr) {
   if (arr.length <= 1) {
     return arr;
   } else {
-    let arr1 = arr.splice(Math.floor(arr.length / 2));
+    let arr1 = arr.splice(0, Math.floor(arr.length / 2));
     return stitch(mergeSort(arr), mergeSort(arr1));
   }
 }
@@ -23,24 +23,21 @@ function stitch(listOne = [], listTwo = []) {
 
   while (listOne.length > 0 && listTwo.length > 0) {
     if (listOne[0] < listTwo[0]) {
-      newArr.push(listOne[0]);
-      listOne.splice(0, 1);
+      newArr.push(listOne.shift());
     } else {
-      newArr.push(listTwo[0]);
-      listTwo.splice(0, 1);
+      newArr.push(listTwo.shift());
     }
   }
 
-  if (listOne.length > 0) newArr.push(...listOne);
-  if (listTwo.length > 0) newArr.push(...listTwo);
+  newArr = newArr.concat(listOne, listTwo);
 
   return newArr;
 }
 
-console.log(mergeSort(numbers));
+let copyNumbers = [...numbers];
+console.log('Merge sort: ', mergeSort(copyNumbers));
 
-// My first try at insertion sort. A bit more challenging than bubble sort, and I'm
-// not sure if it's a
+// My first try at insertion sort. A bit more challenging than bubble sort.
 function insertionSort(arr) {
   let newArr = [];
 
@@ -64,7 +61,7 @@ function insertionSort(arr) {
   return newArr;
 }
 
-// console.log(insertionSort(numbers));
+console.log('Insertion sort: ', insertionSort(numbers));
 
 // Trying out my own custom bubble sort.
 function bubbleSort(arr, swappedLast = true) {
@@ -73,6 +70,7 @@ function bubbleSort(arr, swappedLast = true) {
   let swapped = false;
   let newArr = [...arr];
 
+  // TODO! There is something wrong with bubble sort atm.
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] > arr[i + 1]) {
       newArr[i] = arr[i + 1];
@@ -84,4 +82,4 @@ function bubbleSort(arr, swappedLast = true) {
   return bubbleSort(newArr, swapped);
 }
 
-// console.log(bubbleSort(numbers));
+console.log('Bubble sort: ', bubbleSort(numbers));
