@@ -36,3 +36,61 @@ aFunction.__proto__; // Function prototype, where bind, apply, etc lives.
 aFunction.__proto__ === Function.prototype; // true
 aFunction.__proto__.__proto__ === Object.prototype; // true
 Function.prototype.isPrototypeOf(aFunction); // true
+
+// A few more examples.
+'A string'.__proto__; // String prototype;
+'test'.__proto__ === String.prototype; // true
+'test'.__proto__.__proto__ === Object.prototype; // true
+true.__proto__ === Boolean.prototype; // true
+Number(5).__proto__ === Number.prototype; // true
+
+//
+
+// A creator function with an aditional method on its prototype.
+function SuperType() {
+  this.role = 'user';
+}
+SuperType.prototype.displayName = function() {
+  return this.name;
+};
+
+// Another creator function. Its prototype object will now be the object returned from
+// SuperType. So, any object created through SubType will inherit from the SuperType
+// creator function, as well as its prototype. This is prototypical chaining.
+function SubType(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+// There are several ways of extending the prototype chain.
+// First off, we can use the new keyword to create a new object out of SuperType.
+SubType.prototype = new SuperType();
+SubType.prototype.newProp = 'new Prop';
+
+// We could also use Object.create to create a new object and pass an argument which
+// will be the objects prototype. In this first case, we will go directly to the
+// prototype of SuperType, and therefor miss the "role" property defined on SuperType.
+SubType.prototype = Object.create(SuperType.prototype);
+// Using the new keyword here solves it, but we get a redundat object in the chain.
+// We can also pass another object as a second argument to extend the prototype.
+SubType.prototype = Object.create(new SuperType(), {
+  moreProps: {
+    value: 'Another property of the prototype'
+  }
+});
+
+// Some depricated ways of doing it involves Object.setPrototypeOf and just change
+// the value of __proto__ manually. These are not recommended.
+
+let user = new SubType('Tobias', 32);
+
+console.log(user);
+console.log(user.role);
+console.log(user.displayName());
+
+user.role; // user;
+user.displayName; // Tobias
+
+user.__proto__; // An object create from SuperType, with property "role".
+user.__proto__.__proto__; // The prototype object from SuperType.
+user.__proto__.__proto__.__proto__; // Object prototype.
