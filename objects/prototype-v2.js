@@ -80,13 +80,12 @@ SubType.prototype = Object.create(new SuperType(), {
 });
 
 // Some depricated ways of doing it involves Object.setPrototypeOf and just change
-// the value of __proto__ manually. These are not recommended.
+// the value of __proto__ manually. These are not recommended, but if we had to pick
+// one using Object.setPrototypeOf is recommended. Changing Object.prototype.__proto__
+// manually is a very slow and deprecated operation. If we want to manually set an
+// objects prototype we should use Object.create() on creation.
 
 let user = new SubType('Tobias', 32);
-
-console.log(user);
-console.log(user.role);
-console.log(user.displayName());
 
 user.role; // user;
 user.displayName; // Tobias
@@ -94,3 +93,17 @@ user.displayName; // Tobias
 user.__proto__; // An object create from SuperType, with property "role".
 user.__proto__.__proto__; // The prototype object from SuperType.
 user.__proto__.__proto__.__proto__; // Object prototype.
+
+//
+
+let obj1 = {
+  testProp: 'Im here!'
+};
+
+let obj2 = {
+  name: 'Tobias'
+};
+
+obj2.__proto__ = obj1;
+
+console.log(obj2.testProp);
