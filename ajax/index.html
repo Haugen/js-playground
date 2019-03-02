@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-
-<body>
-  <div class="dog-container">
-    <img />
-  </div>
-  <button class="btn btn-success get-dog">Get a new dog!</button>
-  <script src="scripts.js"></script>
-</body>
-
+  <body>
+    <div class="breed-select">
+      <label>Breed</label>
+      <select id="breeds">
+        <option value="all">All</option>
+      </select>
+    </div>
+    <div class="dog-container">
+      <img />
+    </div>
+    <button class="btn btn-success get-dog">Get a new 🐶</button>
+    <script src="scripts.js"></script>
+  </body>
 </html>
